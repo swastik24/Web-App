@@ -1,0 +1,153 @@
+//     <h1>Welcome to hell</h1>
+        //     <form onSubmit={this.onSubmit}>
+        //     <div >
+        //         <label>Username : </label>
+        //         <input type="text" 
+                       
+        //                value={this.state.username}
+        //                onChange={this.onChangeUsername}
+        //                />
+        //     </div>
+        //     <div >
+        //         <label>Password : </label>
+        //         <input type="text" 
+                       
+        //                value={this.state.password}
+        //                onChange={this.onChangePassword}
+        //                />  
+        //     </div>
+        //     <div>
+        //         <select value={this.state.type} onChange={this.onChangeType}>
+        //             <option value="vendor">Vendor</option>
+        //             <option value="customer">Customer</option>
+                    
+        //         </select>
+        //     </div>
+        //     <div >
+        //         <input type="submit" value="Register" />
+        //     </div>
+        // </form>
+
+
+
+
+
+
+        constructor(props) {
+        super(props);
+      
+        this.state = {
+            username: '',
+            password: '',
+            type: ''
+            
+        }
+
+        this.onChangeUsername = this.onChangeUsername.bind(this);
+        this.onChangePassword = this.onChangePassword.bind(this);
+        this.onSubmit = this.onSubmit.bind(this);
+        this.onChangeType=this.onChangeType.bind(this);
+    }
+    onChangeUsername(event) {
+        this.setState({ username: event.target.value });
+    }
+
+    onChangePassword(event) {
+        this.setState({ password: event.target.value });
+    }
+    onChangeType(event){
+        this.setState({type:event.target.value});
+    }
+    onSubmit(e) {
+        e.preventDefault();
+
+        const newUser = {
+            username: this.state.username,
+            password: this.state.password
+        }
+        if(this.state.type=='customer'){
+            axios.post('http://localhost:4000/buyer/add', newUser)
+                .then(res => console.log(res));
+        }
+        else {
+            axios.post('http://localhost:4000/vendor/add', newUser)
+            .then(res => console.log(res));
+        }
+        this.setState({
+            username: '',
+            password: '',
+            type: ''
+        });
+    }
+
+
+
+    //login
+
+    const newUser = {
+            username: this.state.username,
+            password: this.state.password
+        }
+        
+        if(this.state.type=='customer'){
+            // console.log('shit')
+            axios.post('http://localhost:4000/buyer/exist', newUser)
+                .then(function(res){if(res.data.length==1)
+                    {
+                        console.log('login successful')
+                    }
+                    else
+                    {
+                        console.log('login unsuccessful')
+                    }
+                });
+        }
+        else {
+            axios.post('http://localhost:4000/vendor/exist', newUser)
+            .then(res => 
+                (res.data.length==1)?this.setState({redirect:true,id:res.data[0].username}):console.log('login Unsuccessful')                    
+                );
+            
+        }
+        // console.log(check)
+  
+        this.setState({
+            username: '',
+            password: ''
+        });
+
+
+
+
+
+
+
+        <form onSubmit={this.onSubmit}>
+                    <div >
+                        <label>Name of Product: </label>
+                        <input type="text" 
+                            
+                            value={this.state.name}
+                            onChange={this.onChangename}
+                            />
+                    </div>
+                    <div >
+                        <label>Price: </label>
+                        <input type="text" 
+                            
+                            value={this.state.price}
+                            onChange={this.onChangeprice}
+                            />
+                    </div>
+                    <div >
+                        <label>Quantity: </label>
+                        <input type="text" 
+                            
+                            value={this.state.quantity}
+                            onChange={this.onChangequantity}
+                            />
+                    </div>
+                    <div >
+                        <input type="submit" value="Add" />
+                    </div>
+                </form>
